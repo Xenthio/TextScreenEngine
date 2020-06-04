@@ -153,6 +153,7 @@ SDL_Texture *img = NULL;
 int count = 0;
 int charX = 0;
 int charY = 0;
+SDL_Rect bruh;
 SDL_Renderer *renderer = NULL;
 SDL_Texture *font = NULL;
 SDL_Texture *newLineImage = NULL;
@@ -260,7 +261,7 @@ int initWindow() {
 	font = IMG_LoadTexture(renderer, IMG_PATH);
 	cursorImage = GetAreaTextrue( cursor, renderer, font );
 	newLineImage = IMG_LoadTexture(renderer, NEWLINE_PATH);
-	
+	//cursorImage = GetAreaTextrue( cursor, renderer, font );
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 0);
    	unsigned char* raw_newline = reinterpret_cast<unsigned char*>(&newLineImage);
 	//std::cout << newLineImage;
@@ -278,7 +279,7 @@ int mainLoop() {
 	
 	while (1) {
 		
-		
+		int newLineMode = 0;
 		//charX = 0;
 		//charY = 0;
 		Blink += 1;
@@ -297,40 +298,47 @@ int mainLoop() {
 		// copy the texture to the rendering context
 		
 		SDL_Rect temp;temp.x = charX; temp.y = charY; temp.w = 9; temp.h = 16; 
-		SDL_Rect bruh;bruh.x = 0; bruh.y = 0; bruh.w = 0; bruh.h = 0; 
+		
 		//SDL_RenderFillRect(renderer, &temp);
 		auto TEMPORARY = images;
 		SDL_RenderPresent(renderer);
+		
 		for(SDL_Texture *image : TEMPORARY) 
 		{
 			texr.x = charX; texr.y = charY; texr.w = 9; texr.h = 16; 
-			
 			if (image == newLineImage) {
-				//bruh = texr;
-				//SDL_Delay(500)
+				SDL_RenderFillRect(renderer, &bruh);
+				bruh.x = charX; bruh.y = charY; bruh.w = 9; bruh.h = 16; 
+				temp.x = charX; temp.y = charY; temp.w = 9; temp.h = 16;
+				
+				newLineMode = 1;
+				//SDL_Delay(1000);
 				Blink = 0;
 				charX = 0;
 				charY += 16;
+				SDL_RenderFillRect(renderer, &bruh);
+				
 			} else {
 				SDL_RenderCopy(renderer, image, NULL, &texr);
-				
+				temp.x = charX; temp.y = charY; temp.w = 9; temp.h = 16;
 				charX += 9;
 			}
 			images.erase(images.begin());
 		}
-		temp.x = charX; temp.y = charY; temp.w = 9; temp.h = 16; 
+		 
 		
 		
-		if (Blink == 7) {
-			//SDL_DestroyTexture(cursorImage);
-			//SDL_RenderFillRect(renderer, &temp);
-		} else if (Blink == 12) {
-			//cursorImage = GetAreaTextrue( cursor, renderer, font );
-			//SDL_RenderCopy(renderer, cursorImage, NULL, &temp);
-		
+		if (Blink == 10) {
+			
+			SDL_RenderFillRect(renderer, &bruh);
+			
+		} else if (Blink == 5) {
+			
+			SDL_RenderCopy(renderer, cursorImage, NULL, &bruh);
+			
 		}
-		if (Blink == 12) {
-			Blink = 2;
+		if (Blink == 10) {
+			Blink = 0;
 		}
 		//SDL_RenderFillRect(renderer, &bruh);
 		
