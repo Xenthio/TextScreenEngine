@@ -7,7 +7,6 @@
 
 extern SDL_Window *win;
 extern SDL_Texture *img;
-extern SDL_Texture *images[64];
 extern int count;
 extern int charX;
 extern int charY;
@@ -26,6 +25,8 @@ extern SDL_Rect codePageDecode(char letter);
 extern void drawChar(char letter);
 
 extern void drawChars(char* str);
+
+extern void clearScreen();
 
 extern int initWindow();
 extern int mainLoop();

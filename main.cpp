@@ -7,7 +7,11 @@
 
 void trueMain() {
 	drawChars("C:\\> echo What's up, Dude?\n");
-	drawChars("What's up, Dude?\n");
+	drawChars("What's up, Dude?");
+	SDL_Delay(2000);
+	drawChars("\nHello");
+	SDL_Delay(2000);
+	drawChars("\nHello Again");
 
 } 
 
